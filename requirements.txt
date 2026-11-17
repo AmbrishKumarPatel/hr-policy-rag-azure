@@ -1,0 +1,7 @@
+openai
+python-dotenv
+azure-search-documents
+requests
+fastapi
+uvicorn
+pypdf
