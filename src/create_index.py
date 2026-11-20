@@ -1,5 +1,3 @@
-from azure.core.credentials import AzureKeyCredential
-from azure.search.documents.indexes import SearchIndexClient
 from azure.search.documents.indexes.models import (
     SearchIndex,
     SimpleField,
@@ -11,11 +9,9 @@ from azure.search.documents.indexes.models import (
     VectorSearchProfile,
 )
 import config
+from azure_clients import get_index_client
 
-index_client = SearchIndexClient(
-    endpoint=config.AZURE_SEARCH_ENDPOINT,
-    credential=AzureKeyCredential(config.AZURE_SEARCH_API_KEY),
-)
+index_client = get_index_client()
 
 fields = [
     # har chunk ki unique pehchaan

@@ -1,14 +1,8 @@
-from azure.core.credentials import AzureKeyCredential
-from azure.search.documents import SearchClient
 from azure.search.documents.models import VectorizedQuery
-import config
+from azure_clients import get_search_client
 from embeddings import get_embedding
 
-search_client = SearchClient(
-    endpoint=config.AZURE_SEARCH_ENDPOINT,
-    index_name=config.AZURE_SEARCH_INDEX_NAME,
-    credential=AzureKeyCredential(config.AZURE_SEARCH_API_KEY),
-)
+search_client = get_search_client()
 
 
 def search(query, user_groups, top=3):

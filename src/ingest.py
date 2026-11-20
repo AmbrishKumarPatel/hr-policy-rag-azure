@@ -1,11 +1,9 @@
 import json
 import os
-from azure.core.credentials import AzureKeyCredential
-from azure.search.documents import SearchClient
 import config
-from embeddings import client as openai_client   # embeddings.py wala client
+from azure_clients import get_search_client
+from embeddings import client as openai_client
 
-# kaun si PDF kaun dekh sakta hai
 FILE_GROUPS = {
     "employee_handbook.pdf": ["all", "hr"],
     "PerksPlus.pdf": ["all", "hr"],
@@ -14,11 +12,7 @@ FILE_GROUPS = {
 }
 BATCH_SIZE = 16
 
-search_client = SearchClient(
-    endpoint=config.AZURE_SEARCH_ENDPOINT,
-    index_name=config.AZURE_SEARCH_INDEX_NAME,
-    credential=AzureKeyCredential(config.AZURE_SEARCH_API_KEY),
-)
+search_client = get_search_client()
 
 
 def embed_batch(texts):

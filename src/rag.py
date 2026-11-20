@@ -1,13 +1,10 @@
 import re
-from openai import AzureOpenAI, BadRequestError
+from openai import BadRequestError
 import config
 from search import search
+from azure_clients import get_openai_client
 
-client = AzureOpenAI(
-    azure_endpoint=config.AZURE_OPENAI_ENDPOINT,
-    api_key=config.AZURE_OPENAI_API_KEY,
-    api_version=config.AZURE_OPENAI_API_VERSION,
-)
+client = get_openai_client()
 
 SYSTEM_PROMPT = """You are an HR assistant for Zava employees.
 Answer only from the given context.
