@@ -1,0 +1,33 @@
+name: Build and push image
+
+# Kab chale: main pe push hone par, ya haath se button dabane par
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Image ghcr.io pe daalne ki permission
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Code nikalo
+      - uses: actions/checkout@v4
+
+      # 2. ghcr.io me login (GitHub ka apna token, koi secret nahi banana)
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 3. Dockerfile se image banao aur push karo
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/ambrishkumarpatel/hr-policy-api:latest
