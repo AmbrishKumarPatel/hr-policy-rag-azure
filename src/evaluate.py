@@ -62,7 +62,12 @@ def evaluate_one(case):
 
     # ---- Check 2a: Correctness (zaruri shabd jawab me hai?) ----
     text = answer.lower().replace("’", "'")
-    row["correct"] = 1 if all(w.lower() in text for w in case["must_contain"]) else 0
+    # must_contain: saare shabd hone chahiye
+    all_ok = all(w.lower() in text for w in case.get("must_contain", []))
+    # must_contain_any: koi ek shabd kaafi hai
+    any_words = case.get("must_contain_any")
+    any_ok = any(w.lower() in text for w in any_words) if any_words else True
+    row["correct"] = 1 if all_ok and any_ok else 0
 
     # ---- Check 2b: Security (mana kiye documents search me aaye?) ----
     if case.get("forbidden_sources"):
@@ -103,7 +108,9 @@ if __name__ == "__main__":
     print(f"Correctness     : {average(rows, 'correct')}")
     print(f"Security pass   : {average(rows, 'security_ok')}")
     print(f"Groundedness    : {average(rows, 'groundedness')} (out of 5)")
-
+    for t in sorted({r["type"] for r in rows}):
+        group = [r for r in rows if r["type"] == t]
+        print(f"{t:<14}: {sum(r['correct'] for r in group)}/{len(group)}")
     # Har run ka result file me, taaki baad me compare kar sake
     out_dir = os.path.join(EVAL_DIR, "results")
     os.makedirs(out_dir, exist_ok=True)

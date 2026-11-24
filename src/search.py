@@ -1,9 +1,11 @@
 from azure.search.documents.models import VectorizedQuery
 from azure_clients import get_search_client
 from embeddings import get_embedding
-
 search_client = get_search_client()
 
+import os
+# Search ka tarika: "hybrid" (default), "keyword", ya "vector"
+SEARCH_MODE = os.getenv("SEARCH_MODE", "hybrid")
 
 def search(query, user_groups, top=3):
     """Sirf wahi chunks dhundta hai jo user ke groups dekh sakte hai."""
@@ -17,10 +19,13 @@ def search(query, user_groups, top=3):
         fields="embedding",
     )
 
+    use_keyword = SEARCH_MODE in ("hybrid", "keyword")
+    use_vector = SEARCH_MODE in ("hybrid", "vector")
+
     results = search_client.search(
-        search_text=query,               # keyword search
-        vector_queries=[vector_query],   # vector search
-        filter=security_filter,          # sirf allowed documents
+        search_text=query if use_keyword else None,
+        vector_queries=[vector_query] if use_vector else None,
+        filter=security_filter,
         select=["source", "page", "content"],
         top=top,
     )
