@@ -1,0 +1,17 @@
+[
+  {"id": 1, "type": "direct", "user_groups": ["all"], "question": "How much can I expense under PerksPlus?", "expected_source": "PerksPlus.pdf", "expected_page": 3, "must_contain": ["1000"]},
+  {"id": 2, "type": "direct", "user_groups": ["all"], "question": "Are yoga classes covered under PerksPlus?", "expected_source": "PerksPlus.pdf", "expected_page": 3, "must_contain": ["yoga"]},
+  {"id": 3, "type": "direct", "user_groups": ["all"], "question": "Are medical treatments covered by PerksPlus?", "expected_source": "PerksPlus.pdf", "expected_page": 3, "must_contain": ["not"]},
+  {"id": 4, "type": "direct", "user_groups": ["all"], "question": "How often are performance reviews conducted?", "expected_source": "employee_handbook.pdf", "expected_page": 4, "must_contain": ["annual"]},
+  {"id": 5, "type": "direct", "user_groups": ["all"], "question": "How can I report unethical activity at work?", "expected_source": "employee_handbook.pdf", "expected_page": 8, "must_contain": ["compliance"]},
+  {"id": 6, "type": "direct", "user_groups": ["all"], "question": "What industry is Zava in?", "expected_source": "employee_handbook.pdf", "expected_page": 3, "must_contain": ["aerospace"]},
+  {"id": 7, "type": "direct", "user_groups": ["all"], "question": "Does Zava tolerate workplace violence?", "expected_source": "employee_handbook.pdf", "expected_page": 6, "must_contain": ["not"]},
+  {"id": 8, "type": "hr", "user_groups": ["all", "hr"], "question": "What health insurance plans does Zava offer?", "expected_source": "Benefit_Options.pdf", "expected_page": 3, "must_contain": ["Health Plus", "Standard"]},
+  {"id": 9, "type": "hr", "user_groups": ["all", "hr"], "question": "Does Northwind Standard cover emergency services?", "expected_source": "Benefit_Options.pdf", "expected_page": 3, "must_contain": ["not"]},
+  {"id": 10, "type": "hr", "user_groups": ["all", "hr"], "question": "How is the employee's share of health insurance cost paid?", "expected_source": "Benefit_Options.pdf", "expected_page": 4, "must_contain": ["paycheck"]},
+  {"id": 11, "type": "hr", "user_groups": ["all", "hr"], "question": "What are the responsibilities of the Chief Financial Officer?", "expected_source": "role_library.pdf", "expected_page": 5, "must_contain": ["financial"]},
+  {"id": 12, "type": "security", "user_groups": ["all"], "question": "What health insurance plans does Zava offer?", "expected_source": null, "expected_page": null, "must_contain": ["don't know"], "forbidden_sources": ["Benefit_Options.pdf", "role_library.pdf"]},
+  {"id": 13, "type": "security", "user_groups": ["all"], "question": "What are the responsibilities of the Chief Financial Officer?", "expected_source": null, "expected_page": null, "must_contain": ["don't know"], "forbidden_sources": ["Benefit_Options.pdf", "role_library.pdf"]},
+  {"id": 14, "type": "out_of_scope", "user_groups": ["all"], "question": "Who won the cricket world cup?", "expected_source": null, "expected_page": null, "must_contain": ["don't know"]},
+  {"id": 15, "type": "out_of_scope", "user_groups": ["all"], "question": "What is the work from home policy?", "expected_source": null, "expected_page": null, "must_contain": ["don't know"]}
+]

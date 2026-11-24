@@ -19,10 +19,21 @@ PII_PATTERNS = {
     "card": r"\b(?:\d[ -]?){13,19}\b",
     "phone": r"(?:\+?\d{1,3}[\s-]?)?\d{5}[\s-]?\d{5}\b",
 }
+# Company ke apne email personal data nahi hai, ye allow hai
+ALLOWED_EMAIL_DOMAINS = ("@zava.com",)
 
-
-def find_pii(text):
-    return [name for name, pattern in PII_PATTERNS.items() if re.search(pattern, text)]
+def find_pii(text, allow_company_emails=False):
+    """Text me kaun si PII hai, uske naam ki list deta hai."""
+    found = []
+    for name, pattern in PII_PATTERNS.items():
+        matches = re.findall(pattern, text)
+        if name == "email" and allow_company_emails:
+            # sentence ke end ka "." hata ke company domain check karo
+            matches = [m for m in matches
+                       if not m.lower().rstrip(".").endswith(ALLOWED_EMAIL_DOMAINS)]
+        if matches:
+            found.append(name)
+    return found
 
 
 def blocked(message):
@@ -81,7 +92,7 @@ def ask(question, user_groups):
         return blocked("Sorry, the answer was blocked by the safety filter.")
 
     answer = choice.message.content
-    pii_in_answer = find_pii(answer)
+    pii_in_answer = find_pii(answer, allow_company_emails=True)
     if pii_in_answer:
         print("[GUARDRAIL] PII in answer:", pii_in_answer)
         return blocked("Sorry, the answer contained personal information and was blocked.")
