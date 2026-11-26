@@ -7,5 +7,5 @@ uvicorn
 pypdf
 azure-identity
 truststore
-
+azure-ai-projects
 
